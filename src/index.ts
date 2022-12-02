@@ -14,16 +14,16 @@ export = (app: Probot) => {
     //   basehead,
     // });
 
-    const { data: diff } = await context.octokit.rest.pulls.get({
-      owner: "octokit",
-      repo: "rest.js",
-      pull_number: 123,
-      mediaType: {
-        format: "diff",
-      },
-    });
+    // const { data: diff } = await context.octokit.rest.pulls.get({
+    //   owner: "octokit",
+    //   repo: "rest.js",
+    //   pull_number: 123,
+    //   mediaType: {
+    //     format: "diff",
+    //   },
+    // });
 
-    console.log("diff", diff);
+    // console.log("diff", diff);
   });
 
 
