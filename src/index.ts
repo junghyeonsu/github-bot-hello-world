@@ -6,8 +6,10 @@ export = (app: Probot) => {
       body: "Hello World!",
     });
 
-    await context.octokit.pulls.createReviewComment(pullRequestComment);
+    const result = await context.octokit.pulls.createReviewComment(pullRequestComment);
 
+    console.log("result", result);
+    
     // octokit.rest.repos.compareCommitsWithBasehead({
     //   owner,
     //   repo,
@@ -32,18 +34,6 @@ export = (app: Probot) => {
     //   body: "Thanks for opening this issue!",
     // });
     // await context.octokit.issues.createComment(issueComment);
-
-    const { data: diff } = await context.octokit.rest.pulls.get({
-      owner: "octokit",
-      repo: "rest.js",
-      pull_number: 123,
-      mediaType: {
-        format: "diff",
-      },
-    });
-
-    console.log("diff", diff);
-    
   });
 
   // For more information on building apps:
