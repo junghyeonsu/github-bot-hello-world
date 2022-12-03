@@ -2,16 +2,7 @@ import { Probot } from "probot";
 
 export = (app: Probot) => {
   app.on("pull_request.opened", async (context) => {
-    const pullRequestComment = context.pullRequest({
-      body: "Hello World!",
-    });
 
-    const result = await context.octokit.pulls.createReviewComment(pullRequestComment);
-
-    console.log("result", result);
-
-    
-    
     // octokit.rest.repos.compareCommitsWithBasehead({
     //   owner,
     //   repo,
@@ -21,22 +12,26 @@ export = (app: Probot) => {
     const { data: diff } = await context.octokit.rest.pulls.get({
       owner: "octokit",
       repo: "rest.js",
-      pull_number: result.data.id,
+      pull_number: context.payload.pull_request.id,
       mediaType: {
         format: "diff",
       },
     });
 
-    console.log("diff", diff);
+    const pullRequestComment = context.pullRequest({
+      body: `Hello World! ${JSON.stringify(diff)}`,
+    });
+
+    await context.octokit.pulls.createReview(pullRequestComment);
   });
 
 
-  // app.on("issues.opened", async (context) => {
-    // const issueComment = context.issue({
-    //   body: "Thanks for opening this issue!",
-    // });
-    // await context.octokit.issues.createComment(issueComment);
-  // });
+  app.on("issues.opened", async (context) => {
+    const issueComment = context.issue({
+      body: "Thanks for opening this issue!",
+    });
+    await context.octokit.issues.createComment(issueComment);
+  });
 
   // For more information on building apps:
   // https://probot.github.io/docs/
